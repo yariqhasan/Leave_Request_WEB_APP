@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <?!= include("page-css");?>
+  </head>
+  <body>
+      <div class="container">
+
+
+          <div class="row">
+            <div class="input-field col s12">
+               <h1> Leave Requests!-Yariq Hasan</h1>
+
+
+               <!-- TAKES THE USER TO THE FORM  -->
+               <a href="<?= ScriptApp.getService().getUrl(); ?>?v=form" id="btn" class="waves-effect waves-light btn-small indigo darken-3"><i class="material-icons
+               left">chevron_right</i>Add Record</a>
+
+               <!-- TAKES THE USER TO EMPLOYEES CONTACT INFO TABLE -->
+               <a href="<?= ScriptApp.getService().getUrl(); ?>?v=table" id="btn" class="waves-effect waves-light btn-small indigo darken-3"><i class="material-icons 
+               left">chevron_right</i>Employees Contact Information</a>
+            </div>
+            
+          </div> <!---CLOSE ROW----->
+      </div> <!--Close Container -->
+
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+  </body>
+</html>

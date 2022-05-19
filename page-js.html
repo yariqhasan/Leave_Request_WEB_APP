@@ -1,0 +1,96 @@
+<script>
+   document.addEventListener('DOMContentLoaded', function() { 
+    document.getElementById("btn").addEventListener("click",buttonClickAction); // Takes care of the data and submits into to the table
+    var selectBoxes = document.querySelectorAll('select'); // dropdown 
+    M.FormSelect.init(selectBoxes);
+    google.script.run.withSuccessHandler(populateDates).getCalendarBusyDays(); // is connected to the email and checks to see if your calander date is taken
+    
+
+   });
+   
+    //Disable dates
+   function populateDates(disabledDays){
+    var datePicker = document.getElementById('prefDate');
+    M.Datepicker.init(datePicker,{
+      format:"m/d/yyyy",
+      disableDayFn: function(day){
+        return disabledDays.indexOf(day.valueOf()) > -1 || day.valueOf() < new Date().valueOf();
+      }
+    });
+    }
+
+
+      
+      // this functions takes the inputs and checks to see if every input is filled up.
+      function buttonClickAction(){
+        var toValidate = { // if the input is not filled then a message will pop-up showing which input needs the user inputs
+          court:"Please Choose Your Court",
+          fn:"Full Name Is Required",
+          prefDate:"Date Is Required",
+          leave: "Pick A Type Of Leave",
+          hours: "Please Put The Number Of Hours",
+          email: "Enter The Recipient Email"
+         
+        };
+        var idKeys= Object.keys(toValidate); // checks for validations
+        var allValid=true;
+        idKeys.forEach(function(id){
+          var isValid = checkIfValid(id,toValidate[id]);
+          if(!isValid){
+            allValid = false;
+          }
+        });
+        if(allValid){
+          addRecord();
+        }
+        
+        
+
+      }
+      function checkIfValid(elID,message){ // checks that the message is according to the input
+        var isValid = document.getElementById(elID).checkValidity();
+
+        if(!isValid){
+          //warn the user
+          M.toast({html: message});
+          return false;
+        }
+        return true;
+
+      }
+
+      // adding inputs in the table
+      function addRecord(){
+        var userInfo={};
+        userInfo.fullname = document.getElementById("fn").value;
+        userInfo.court = document.getElementById("court").value;
+        userInfo.email = document.getElementById("email").value;
+        userInfo.prefDate = document.getElementById("prefDate").value;
+        userInfo.leave = document.getElementById("leave").value;
+        userInfo.hours = document.getElementById("hours").value;
+    
+
+
+        // once submited the date will become an empty string
+        google.script.run.userClicked(userInfo);
+        document.getElementById("fn").value= "";
+        document.getElementById("court").value = "";
+        document.getElementById("prefDate").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("leave").value= "";
+        document.getElementById("hours").value = "";
+       
+        // updates the form
+        M.updateTextFields();
+        
+        // empty the all the selected dropbox options
+        var myCourt= document.getElementById("court")
+        myCourt.selectedIndex = 0;
+        M.FormSelect.init(myCourt);
+
+        var myLeave= document.getElementById("leave")
+        myLeave.selectedIndex = 0;
+        M.FormSelect.init(myLeave);
+      }
+
+ </script>
